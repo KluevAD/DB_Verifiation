@@ -33,7 +33,7 @@ import psycopg2
 import os
 from psycopg2 import Error
 
-def ping(ip):
+def ping_check(ip):
     response = os.system("ping " + ip)
     return response
 
@@ -41,7 +41,7 @@ def close_connection(Master_ip):
     os.system(f"ssh postgres@{Master_ip} 'ifconfig eth0 down && sleep 10 && ifconfig eth0 down'")
 
 def comparison(Master_ip, Replica_ip):
-    while ping(Master_ip) == 0:
+    while ping_check(Master_ip) == 0:
         connection = psycopg2.connect(dbname='basket', user='postgres', password='12345', host = Master_ip )
         cur = connection.cursor()
         cur.execute('SELECT COUNT(*) FROM basket;')
